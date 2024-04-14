@@ -1,5 +1,6 @@
 package com.btc.swimpyo.backend.service.mypage.user;
 
+import com.btc.swimpyo.backend.config.aspect.SlackNotification;
 import com.btc.swimpyo.backend.dto.reservation.ReservationDto;
 import com.btc.swimpyo.backend.dto.room.admin.AdminRoomDto;
 import com.btc.swimpyo.backend.dto.room.user.UserReviewDto;
@@ -36,6 +37,7 @@ public class UserMypageService implements IUserMypageService {
 
 
     @Override
+    @SlackNotification
     public List<Map<String,Object>> GetRezList(HttpServletRequest request, int u_r_no, int period) {
         log.info("GetRezList");
         Map<String, Object> map = new HashMap<>();
@@ -50,16 +52,44 @@ public class UserMypageService implements IUserMypageService {
                 }
             }
         }
-        final String userEmail;
-        userEmail = jwtAuthenticationFilter.getUserEmail(secretKey, refreshToken);
+//        final String userEmail;
+//        userEmail = jwtAuthenticationFilter.getUserEmail(secretKey, refreshToken);
 
-        map.put("userEmail", userEmail);
+//        map.put("userEmail", userEmail);
         map.put("u_r_no", u_r_no);
         map.put("period", period);
 
-
         return iUserMypageDaoMapper.selectRezList(map);
     }
+
+//@Override
+//@SlackNotification
+//public List<Map<String,Object>> GetRezList(HttpServletRequest request, int u_r_no, int period) {
+//    log.info("GetRezList");
+//    Map<String, Object> map = new HashMap<>();
+//    List<Map<String,Object>> list = new ArrayList<>();
+//
+//    String refreshToken = null;
+//    Cookie[] authHeader = request.getCookies();
+//    if (authHeader != null) {
+//        for (Cookie cookie : authHeader) {
+//            log.info("str => {}", cookie.getName());
+//            if ("authorization".equals(cookie.getName())) {
+//                refreshToken = cookie.getValue();
+//            }
+//        }
+//    }
+//    map.put("u_r_no", u_r_no);
+//    map.put("period", period);
+//
+//    list.addAll(iUserMypageDaoMapper.selectRezListURTbl(map));
+//    list.addAll(iUserMypageDaoMapper.selectRezListARtbl(map));
+//    list.addAll(iUserMypageDaoMapper.selectRezListAATbl(map));
+//    list.addAll(iUserMypageDaoMapper.selectRezListAITbl(map));
+//
+//    return list;
+//}
+
 
     @Override
     public Map<String,Object> showReviewList(HttpServletRequest request) {

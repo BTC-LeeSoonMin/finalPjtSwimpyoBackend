@@ -1,5 +1,6 @@
 package com.btc.swimpyo.backend.controller.mypage.user;
 
+import com.btc.swimpyo.backend.config.aspect.SlackNotification;
 import com.btc.swimpyo.backend.dto.reservation.ReservationDto;
 import com.btc.swimpyo.backend.dto.room.user.UserReviewDto;
 import com.btc.swimpyo.backend.service.mypage.user.UserMypageService;

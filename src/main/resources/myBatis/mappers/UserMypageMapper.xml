@@ -7,7 +7,7 @@
     <select id="selectRezList" parameterType="map" resultType="hashmap">
 
         select
-        DISTINCT (ur.isWrite),
+--         DISTINCT (ur.isWrite),
         ai.a_i_image,
         aa.a_acc_no,
         aa.a_acc_name,
@@ -31,20 +31,61 @@
             LEFT JOIN tbl_admin_room ar ON ur.a_r_no = ar.a_r_no
             LEFT JOIN tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
             LEFT JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
-        where 1=1
-            AND ur.u_m_email = #{userEmail}
-            AND ur.use_yn = "Y"
-            AND ur.pay_yn = "Y"
-            <if test="u_r_no != 0">
-                AND ur.u_r_no = #{u_r_no}
-            </if>
-            <if test="period != 0">
-                AND ur.u_r_reg_date >= DATE_SUB(NOW(), INTERVAL #{period} MONTH)
-            </if>
-        ORDER BY ur.u_r_reg_date DESC
+<!--        where 1=1-->
+<!--            AND ur.u_m_email = #{userEmail}-->
+<!--            AND ur.use_yn = "Y"-->
+<!--            AND ur.pay_yn = "Y"-->
+<!--            <if test="u_r_no != 0">-->
+<!--                AND ur.u_r_no = #{u_r_no}-->
+<!--            </if>-->
+<!--            <if test="period != 0">-->
+<!--                AND ur.u_r_reg_date >= DATE_SUB(NOW(), INTERVAL #{period} MONTH)-->
+<!--            </if>-->
+<!--        ORDER BY ur.u_r_reg_date DESC-->
 
 
     </select>
+
+<!--    <select id="selectRezListURTbl" parameterType="map" resultType="hashmap">-->
+<!--    select-->
+<!--        u_r_no,-->
+<!--        u_m_email,-->
+<!--        use_yn,-->
+<!--        pay_yn,-->
+<!--        u_r_check_in,-->
+<!--        u_r_check_out,-->
+<!--        u_r_car_yn,-->
+<!--        u_r_check_in_time,-->
+<!--        u_r_check_out_time-->
+<!--    from-->
+<!--        tbl_user_reservation-->
+<!--    </select>-->
+<!--    <select id="selectRezListARtbl" parameterType="map" resultType="hashmap">-->
+<!--        select-->
+<!--            a_r_no,-->
+<!--            a_r_name,-->
+<!--            a_r_content,-->
+<!--            a_r_state,-->
+<!--            a_r_check_in,-->
+<!--            a_r_check_out-->
+<!--        from-->
+<!--            tbl_admin_room-->
+<!--    </select>-->
+<!--    <select id="selectRezListAATbl" parameterType="map" resultType="hashmap">-->
+<!--        select-->
+<!--            a_acc_no,-->
+<!--            a_acc_name-->
+<!--        from-->
+<!--            tbl_admin_accommodation-->
+<!--    </select>-->
+<!--    <select id="selectRezListAITbl" parameterType="map" resultType="hashmap">-->
+<!--        select-->
+<!--            a_i_image-->
+<!--        from-->
+<!--            tbl_accommodation_image-->
+<!--    </select>-->
+
+
 
     <select id="selectRezAddressForList" parameterType="Integer" resultType="String" >
 
