@@ -31,7 +31,6 @@ public class HealthCheckController {
         responseData.put("serverPort", serverPort);
         responseData.put("serverAddress", serverAddress);
         responseData.put("env", env);
-        responseData.put("name", "LSM");
 
         return ResponseEntity.ok(responseData);
     }
