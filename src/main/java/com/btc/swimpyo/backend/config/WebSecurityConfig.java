@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                         "/api/admin/member/signout").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
 //                .requestMatchers("/api/admin/**").permitAll()
+                .requestMatchers("/api/hc", "/api/env").permitAll()
                 .requestMatchers(
                         "/api/user/member/signUp",
                         "/api/user/member/signIn",

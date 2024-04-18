@@ -7,6 +7,7 @@ import com.btc.swimpyo.backend.service.Reservation.user.UserReservationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,9 @@ import java.util.Map;
 @RequestMapping("/api/user/reservation")
 @RequiredArgsConstructor
 public class UserReservationController {
+
+    @Value("${server.serverAddress}")
+    private String serverAddress;
 
     private final UserReservationService userReservationService;
 
@@ -61,7 +65,9 @@ public class UserReservationController {
     public Map<String, Object> registRsv(@RequestParam ("pg_token") String pg_token, @RequestParam("partner_order_id") String partner_order_id, HttpServletResponse response ) throws IOException {
         log.info("[UserReservationController] registRsv()");
         
-        response.sendRedirect("http://localhost:3000/payment/success");
+//        response.sendRedirect("http://localhost:3000/payment/success");
+        response.sendRedirect("http://" + ("localhost".equals(serverAddress) ? "localhost:3000" : serverAddress + "/payment/success"));
+
 
         return userReservationService.registRsv(pg_token, partner_order_id);
 

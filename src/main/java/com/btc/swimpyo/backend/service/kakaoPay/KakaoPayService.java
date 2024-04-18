@@ -8,6 +8,7 @@ import com.btc.swimpyo.backend.dto.reservation.ReservationDto;
 import com.btc.swimpyo.backend.mappers.kakaoPay.IKakaoPayDaoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,6 +24,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class KakaoPayService {
+
+    @Value("${server.serverAddress}")
+    private String serverAddress;
 
     private final IKakaoPayDaoMapper iKakaoPayDaoMapper;
 
@@ -72,10 +76,15 @@ public class KakaoPayService {
         parameters.add("total_amount", totalAmount);           // 총 금액
         parameters.add("vat_amount", vatAmount);              // 부가세
         parameters.add("tax_free_amount", taxFreeAmount);         //상품 비과세 금액
-        parameters.add("approval_url", "http://localhost:8090/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id); // 성공 시 redirect url
-//        parameters.add("approval_url", "http://localhost:8090/api/user/reservation/registConfirm"); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://localhost:8090/api/payment/cancel");   // 취소 시 redirect url
-        parameters.add("fail_url", "http://localhost:8090/api/payment/fail");       // 실패 시 redirect url
+//        parameters.add("approval_url", "http://localhost:8090/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id); // 성공 시 redirect url
+////        parameters.add("approval_url", "http://localhost:8090/api/user/reservation/registConfirm"); // 성공 시 redirect url
+//        parameters.add("cancel_url", "http://localhost:8090/api/payment/cancel");   // 취소 시 redirect url
+//        parameters.add("fail_url", "http://localhost:8090/api/payment/fail");       // 실패 시 redirect url
+
+
+        parameters.add("approval_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id)); // 성공 시 redirect url
+        parameters.add("cancel_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/cancel"));   // 취소 시 redirect url
+        parameters.add("fail_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/fail"));       // 실패 시 redirect url
 
         /*
          * HTTP 요청을 보내기 위한 엔터티
