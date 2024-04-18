@@ -50,7 +50,7 @@ jobs:
             CURRENT_UPSTREAM=green
           fi
           echo CURRENT_UPSTREAM=$CURRENT_UPSTREAM >> $GITHUB_ENV
-          echo "Current upstream is~~: $CURRENT_UPSTREAM"
+          echo "Current upstream is~~!!!!: $CURRENT_UPSTREAM"
           if [ $CURRENT_UPSTREAM = blue ]; then
             echo "CURRENT_PORT=8080" >> $GITHUB_ENV
             echo "STOPPED_PORT=8081" >> $GITHUB_ENV
