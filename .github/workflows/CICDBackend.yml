@@ -1,4 +1,4 @@
-name: CI
+name: CICDBackend
 
 on:
   push:
