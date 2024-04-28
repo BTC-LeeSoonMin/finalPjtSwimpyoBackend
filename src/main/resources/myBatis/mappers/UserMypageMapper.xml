@@ -7,7 +7,7 @@
     <select id="selectRezList" parameterType="map" resultType="hashmap">
 
         select
-        DISTINCT (ur.isWrite),
+--         DISTINCT (ur.isWrite),
         ai.a_i_image,
         aa.a_acc_no,
         aa.a_acc_name,

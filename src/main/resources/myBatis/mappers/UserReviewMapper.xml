@@ -300,12 +300,12 @@
             aa.a_acc_address,
             ar.a_r_name,
             um.u_m_nickname
-        FROM
+
+        WHERE        FROM
             tbl_review rr
             JOIN tbl_admin_room ar ON ar.a_r_no = rr.a_r_no
             JOIN tbl_admin_accommodation aa  ON ar.a_acc_no = aa.a_acc_no
             JOIN tbl_user_member um ON um.u_m_email = rr.u_m_email
-        WHERE
             rr.r_no = #{r_no}
         AND
             rr.isWrite = 1

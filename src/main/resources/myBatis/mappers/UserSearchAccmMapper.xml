@@ -79,7 +79,7 @@
         FROM
             tbl_user_reservation ur
                 JOIN tbl_admin_room ar ON ur.a_r_no = ar.a_r_no
-                JOIN tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
+                JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
                 JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
         WHERE 1=1
             AND ur.use_yn = 'Y'
