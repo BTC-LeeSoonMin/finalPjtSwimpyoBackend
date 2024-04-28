@@ -43,9 +43,8 @@ public class SearchAccmController {
     @GetMapping("/rankAccmList")
     public Object rankAccmList(@RequestParam ("accmValue") String accmValue){
         log.info("rankAccmList");
+        log.info("accmValue ==> {}", accmValue);
 
-        List<Map<String, Object>> map = searchAccmService.rankAccmList(accmValue);
-
-        return map;
+        return searchAccmService.rankAccmList(accmValue);
     }
 }
