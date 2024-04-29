@@ -49,6 +49,7 @@ public class UserMemberController {
     @PostMapping("/signIn")
     public Object signIn(@RequestBody Map<String, Object> msgMap, UserMemberDto userMemberDto, RefTokenEntity refTokenEntity, HttpServletRequest request, HttpServletResponse response) {
         log.info("signIn");
+        log.info("msgMap >>>>>>> : {}", msgMap);
 
         Map<String, Object> map = iUserMemberService.signIn(msgMap, userMemberDto, refTokenEntity, request,response);
         if (map != null) {

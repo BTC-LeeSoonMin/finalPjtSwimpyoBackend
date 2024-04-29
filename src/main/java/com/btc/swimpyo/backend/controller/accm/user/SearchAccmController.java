@@ -1,5 +1,6 @@
 package com.btc.swimpyo.backend.controller.accm.user;
 
+import com.btc.swimpyo.backend.config.aspect.SlackNotification;
 import com.btc.swimpyo.backend.dto.accm.admin.AdminAccmDto;
 import com.btc.swimpyo.backend.service.accm.user.ISearchAccmService;
 import lombok.RequiredArgsConstructor;
@@ -40,12 +41,11 @@ public class SearchAccmController {
         return mapInfoList;
     }
 
+    @SlackNotification
     @GetMapping("/rankAccmList")
     public Object rankAccmList(@RequestParam ("accmValue") String accmValue){
         log.info("rankAccmList");
 
-        List<Map<String, Object>> map = searchAccmService.rankAccmList(accmValue);
-
-        return map;
+        return searchAccmService.rankAccmList(accmValue);
     }
 }
