@@ -181,6 +181,7 @@ public class UserMemberService implements IUserMemberService {
         log.info("userInfo");
         String checkingRefToken = null;
         Cookie[] authHeader = request.getCookies();
+        log.info("userInfo Service = {}", (Object) authHeader);
         if (authHeader != null) {
             for (Cookie cookie : authHeader) {
                 log.info("str => {}", cookie.getName());
