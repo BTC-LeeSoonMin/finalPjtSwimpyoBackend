@@ -42,10 +42,10 @@ jobs:
     steps:
       - name: Set target IP
         run: |
-          STATUS=$(curl -o /dev/null -w "%{http_code}" "http://${{ secrets.LIVE_SERVER_IP }}/api/env")
+          STATUS=$(curl -o /dev/null -w "%{http_code}" "https://soonmin.info/api/env")
           echo $STATUS
           if [ $STATUS = 200 ]; then
-            CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.LIVE_SERVER_IP }}/api/env")
+            CURRENT_UPSTREAM=$(curl -s "https://soonmin.info/api/env")
           else
             CURRENT_UPSTREAM=green
           fi
