@@ -82,9 +82,13 @@ public class KakaoPayService {
 //        parameters.add("fail_url", "http://localhost:8090/api/payment/fail");       // 실패 시 redirect url
 
 
-        parameters.add("approval_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id)); // 성공 시 redirect url
-        parameters.add("cancel_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/cancel"));   // 취소 시 redirect url
-        parameters.add("fail_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/fail"));       // 실패 시 redirect url
+//        parameters.add("approval_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id)); // 성공 시 redirect url
+//        parameters.add("cancel_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/cancel"));   // 취소 시 redirect url
+//        parameters.add("fail_url", "http://" + ("localhost".equals(serverAddress) ? "localhost:8090" : serverAddress + "/api/payment/fail"));       // 실패 시 redirect url
+
+        parameters.add("approval_url", "https://soonmin.info/api/user/reservation/registConfirm?partner_order_id=" + partner_order_id); // 성공 시 redirect url
+        parameters.add("cancel_url", "https://soonmin.info/api/payment/cancel");   // 취소 시 redirect url
+        parameters.add("fail_url", "https://soonmin.info/api/payment/fail");       // 실패 시 redirect url
 
         /*
          * HTTP 요청을 보내기 위한 엔터티
