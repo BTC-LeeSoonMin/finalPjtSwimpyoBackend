@@ -31,7 +31,7 @@ public class KakaoPayService {
     private final IKakaoPayDaoMapper iKakaoPayDaoMapper;
 
     static final String cid = "TC0ONETIME"; // 가맹점 테스트 코드
-    static final String admin_Key = "1980ead0ae347e6c0c29225e22ede43c";
+    static final String admin_Key = "a902ae885a401b984a92260653c01ca8";
 
     private KakaoReadyResponseDto kakaoReady;
 
