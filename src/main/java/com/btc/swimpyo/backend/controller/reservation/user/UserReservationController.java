@@ -66,7 +66,8 @@ public class UserReservationController {
         log.info("[UserReservationController] registRsv()");
         
 //        response.sendRedirect("http://localhost:3000/payment/success");
-        response.sendRedirect("http://" + ("localhost".equals(serverAddress) ? "localhost:3000" : serverAddress + "/payment/success"));
+//        response.sendRedirect("http://" + ("localhost".equals(serverAddress) ? "localhost:3000" : serverAddress + "/payment/success"));
+        response.sendRedirect("https://soonmin.info/payment/success");
 
 
         return userReservationService.registRsv(pg_token, partner_order_id);
