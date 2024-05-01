@@ -40,6 +40,7 @@ public class SearchAccmController {
         return mapInfoList;
     }
 
+
     @GetMapping("/rankAccmList")
     public Object rankAccmList(@RequestParam ("accmValue") String accmValue){
         log.info("rankAccmList");

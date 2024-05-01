@@ -8,10 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -93,12 +90,136 @@ public class SearchAccmService implements ISearchAccmService {
         return iSearchAccmDaoMapper.mapInfoList(region);
     }
 
+//    @Override
+//    public List<Map<String, Object>> rankAccmList(String accmValue) {
+//        log.info("rankAccmList");
+//
+//        return iSearchAccmDaoMapper.selectTop3Accm(accmValue);
+//    }
+
     @Override
     public List<Map<String, Object>> rankAccmList(String accmValue) {
         log.info("rankAccmList");
+        Map<String, Object> params = new HashMap<>();
 
-        return iSearchAccmDaoMapper.selectTop3Accm(accmValue);
+        // 예약수가 높은 객실순
+        List<Map<String, Object>> top3AccommodationList = iSearchAccmDaoMapper.top3AccommodationList();
+
+        // 결과를 가공하여 a_r_no만 추출하여 리스트로 반환
+        List<Integer> aRNoList = new ArrayList<>();
+        List<Long> duplicationCountList = new ArrayList<>();
+        for (Map<String, Object> accommodation : top3AccommodationList) {
+            Integer aRNo = (Integer) accommodation.get("a_r_no");
+            aRNoList.add(aRNo);
+        }
+        for (Map<String, Object> accommodation : top3AccommodationList) {
+            Long count = (Long) accommodation.get("duplication_count");
+            duplicationCountList.add(count);
+        }
+
+        log.info("aRnoList = {}", aRNoList);
+        log.info("duplicationCountList = {}", duplicationCountList);
+
+
+        params.put("aRNoList", aRNoList);
+        params.put("accmValue", accmValue);
+
+        log.info("params = {}", params);
+
+        List<Map<String, Object>> accmList = iSearchAccmDaoMapper.selectTop3Accm(params);
+        log.info("accmList = {}", accmList);
+
+//        log.info("tp = {}", top3AccommodationList.get(0).get("a_acc_no");
+
+        // 결과를 가공하여 리스트로 반환
+        List<Map<String, Object>> processedAccommodationList = new ArrayList<>();
+        for (int i = 0; i < top3AccommodationList.size(); i++) {
+            Map<String, Object> processedAccommodation = new HashMap<>();
+            processedAccommodation.put("예약수", duplicationCountList.get(i));
+            processedAccommodation.put("a_acc_no", accmList.get(i).get("a_acc_no"));
+            processedAccommodation.put("a_i_image", accmList.get(i).get("a_i_image"));
+            processedAccommodation.put("a_acc_name", accmList.get(i).get("a_acc_name"));
+            processedAccommodationList.add(processedAccommodation);
+        }
+        log.info("processedAccommodationList = {}", processedAccommodationList);
+        return processedAccommodationList;
     }
+
+//    @Override
+//    public List<Map<String, Object>> rankAccmList(String accmValue) {
+//        log.info("rankAccmList");
+//        Map<String, Object> params = new HashMap<>();
+//
+//        // 예약수가 높은 객실순
+//        List<Map<String, Object>> top3AccommodationList = iSearchAccmDaoMapper.top3AccommodationList();
+//
+//        // 결과를 가공하여 a_r_no만 추출하여 리스트로 반환
+//        List<Integer> aRNoList = new ArrayList<>();
+//        List<Long> duplicationCountList = new ArrayList<>();
+//        for (Map<String, Object> accommodation : top3AccommodationList) {
+//            Integer aRNo = (Integer) accommodation.get("a_r_no");
+//            aRNoList.add(aRNo);
+//        }
+//        for (Map<String, Object> accommodation : top3AccommodationList) {
+//            Long count = (Long) accommodation.get("duplication_count");
+//            duplicationCountList.add(count);
+//        }
+//        log.info("aRnoList = {}", aRNoList);
+//        log.info("duplicationCountList = {}", duplicationCountList);
+//
+//        // 예약수가 높은 객실순으로 a_acc_no 가져오기
+//        List<Map<String, Object>> getaAccNo = iSearchAccmDaoMapper.getaAccNo(aRNoList);
+//
+//        List<Integer> aAccNoList = new ArrayList<>();
+//        for (Map<String, Object> item : getaAccNo) {
+//            Integer aAccNo = (Integer) item.get("a_acc_no");
+//            aAccNoList.add(aAccNo);
+//        }
+//        log.info("aAccNoList = {}", aAccNoList);
+//        log.info("accmValue = {}", accmValue);
+//        params.put("aAccNoList", aAccNoList);
+//        params.put("accmValue", accmValue);
+//
+//        // -- a_acc_no에 해당하는 a_acc_no와 호텔명 가져오기
+//        List<Map<String, Object>> getHotelName = iSearchAccmDaoMapper.getHotelName(params);
+//
+//        List<String> hotelNameList = new ArrayList<>();
+//        for (Map<String, Object> name : getHotelName) {
+//            String nameList = (String) name.get("a_acc_name");
+//            hotelNameList.add(nameList);
+//        }
+//
+//        List<Integer> getImageAccNoList = new ArrayList<>();
+//        for (Map<String, Object> hotel : getHotelName) {
+//            Integer aAccNo = (Integer) hotel.get("a_acc_no");
+//            getImageAccNoList.add(aAccNo);
+//        }
+//        log.info("getImageAccNoList = {}", getImageAccNoList);
+//        log.info("hotelNameList = {}", hotelNameList);
+//
+//        // a_acc_no에 해당하는 a_i_image 가져오기
+//        List<Map<String, Object>> getImage = iSearchAccmDaoMapper.getImage(getImageAccNoList);
+//        List<String> imageList = new ArrayList<>();
+//        for (Map<String, Object> image : getImage) {
+//            String address = (String) image.get("a_i_image");
+//            imageList.add(address);
+//        }
+//        log.info("imageList = {}", imageList);
+//
+//        // 결과를 가공하여 리스트로 반환
+//        List<Map<String, Object>> processedAccommodationList = new ArrayList<>();
+//        for (int i = 0; i < top3AccommodationList.size(); i++) {
+//            Map<String, Object> processedAccommodation = new HashMap<>();
+//            processedAccommodation.put("예약수", duplicationCountList.get(i));
+//            processedAccommodation.put("a_acc_no", aAccNoList.get(i));
+//            processedAccommodation.put("a_i_image", imageList.get(i));
+//            processedAccommodation.put("a_acc_name", hotelNameList.get(i));
+//            processedAccommodationList.add(processedAccommodation);
+//        }
+//        log.info("processedAccommodationList = {}", processedAccommodationList);
+//
+//        return processedAccommodationList;
+//    }
 
 
 }

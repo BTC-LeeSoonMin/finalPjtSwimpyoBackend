@@ -70,28 +70,102 @@
 
     </select>
 
-    <select id="selectTop3Accm" parameterType="String" resultType="hashmap">
+<!--    <select id="selectTop3Accm" parameterType="String" resultType="hashmap">-->
+<!--        SELECT-->
+<!--            aa.a_acc_no,-->
+<!--            aa.a_acc_name,-->
+<!--            ai.a_i_image,-->
+<!--            COUNT(ur.u_r_no) as 예약수-->
+<!--        FROM-->
+<!--            tbl_user_reservation ur-->
+<!--                JOIN tbl_admin_room ar ON ur.a_r_no = ar.a_r_no-->
+<!--                JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no-->
+<!--                JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no-->
+<!--        WHERE 1=1-->
+<!--            AND ur.use_yn = 'Y'-->
+<!--            AND ar.use_yn = 'Y'-->
+<!--            AND aa.use_yn = 'Y'-->
+<!--            <if test="accmValue != null">-->
+<!--                AND a_acc_kind = #{accmValue}-->
+<!--            </if>-->
+<!--        GROUP BY-->
+<!--            aa.a_acc_name-->
+<!--        ORDER BY-->
+<!--            예약수 DESC;-->
+<!--    </select>-->
+
+    <select id="selectTop3Accm" parameterType="map" resultType="hashmap">
         SELECT
-            aa.a_acc_no,
-            aa.a_acc_name,
-            ai.a_i_image,
-            COUNT(ur.u_r_no) as 예약수
-        FROM
-            tbl_user_reservation ur
-                JOIN tbl_admin_room ar ON ur.a_r_no = ar.a_r_no
-                JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
-                JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
-        WHERE 1=1
-            AND ur.use_yn = 'Y'
-            AND ar.use_yn = 'Y'
-            AND aa.use_yn = 'Y'
-            <if test="accmValue != null">
-                AND a_acc_kind = #{accmValue}
-            </if>
-        GROUP BY
-            aa.a_acc_name
-        ORDER BY
-            예약수 DESC;
+                    aa.a_acc_no,
+                    aa.a_acc_name,
+                    ai.a_i_image
+                FROM
+                        tbl_admin_room ar
+                        JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
+                        JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
+                WHERE 1=1
+                    AND ar.a_r_no IN
+                    <foreach collection="aRNoList" item="item" open="(" close=")" separator=",">
+                        #{item}
+                    </foreach>
+                    <if test="accmValue != null">
+                        AND a_acc_kind = #{accmValue}
+                    </if>
+
     </select>
+
+
+    <select id="top3AccommodationList" resultType="hashmap" >
+        SELECT
+            a_r_no,
+            COUNT(*) AS duplication_count
+        FROM
+            tbl_user_reservation
+        GROUP BY
+            a_r_no
+        ORDER BY
+            duplication_count DESC
+        limit 3;
+    </select>
+
+    <select id="getaAccNo" resultType="hashmap" >
+        SELECT
+            a_acc_no
+        FROM
+            tbl_admin_room
+        WHERE
+            a_r_no IN
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+    </select>
+
+    <select id="getHotelName" parameterType="java.util.Map" resultType="hashmap">
+        SELECT
+        a_acc_no,
+        a_acc_name
+        FROM
+        new_tbl_admin_accommodation
+        WHERE 1=1
+        AND a_acc_no IN
+        <foreach collection="aAccNoList" item="item" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+        AND a_acc_kind = #{accmValue}
+    </select>
+
+    <select id="getImage" resultType="hashmap">
+        SELECT
+            a_i_image
+        FROM
+            tbl_accommodation_image
+        WHERE
+            a_acc_no IN
+            <foreach collection="list" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+    </select>
+
 
 </mapper>
