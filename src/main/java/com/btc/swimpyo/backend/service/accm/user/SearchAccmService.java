@@ -90,12 +90,31 @@ public class SearchAccmService implements ISearchAccmService {
         return iSearchAccmDaoMapper.mapInfoList(region);
     }
 
-//    @Override
-//    public List<Map<String, Object>> rankAccmList(String accmValue) {
-//        log.info("rankAccmList");
-//
-//        return iSearchAccmDaoMapper.selectTop3Accm(accmValue);
-//    }
+
+    @Override
+    public List<Map<String, Object>> usersStatic() {
+        log.info("usersStatic");
+
+        // 정적 쿼리 실행
+        long startTimeStatic = System.currentTimeMillis();
+        List<Map<String, Object>> usersStatic = iSearchAccmDaoMapper.getStaticResult();
+        long endTimeStatic = System.currentTimeMillis();
+        System.out.println("Static Query Time: " + (endTimeStatic - startTimeStatic) + "ms");
+        return null;
+    }
+
+    @Override
+    public Object usersDynamic(String accmValue) {
+        log.info("usersDynamic");
+
+        // 동적 쿼리 실행
+        long startTimeDynamic = System.currentTimeMillis();
+        List<Map<String, Object>> usersDynamic = iSearchAccmDaoMapper.getDynamicResult(accmValue);
+        long endTimeDynamic = System.currentTimeMillis();
+        System.out.println("Dynamic Query Time: " + (endTimeDynamic - startTimeDynamic) + "ms");
+
+        return null;
+    }
 
     @Override
     public List<Map<String, Object>> rankAccmList(String accmValue) {

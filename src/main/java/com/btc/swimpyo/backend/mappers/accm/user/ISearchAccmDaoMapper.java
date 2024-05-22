@@ -13,7 +13,6 @@ public interface ISearchAccmDaoMapper {
 
     List<AdminAccmDto> mapInfoList(String region);
 
-//    List<Map<String, Object>> selectTop3Accm(String accmValue);
     List<Map<String, Object>> selectTop3Accm(Map<String, Object> params);
 
     List<Map<String, Object>> top3AccommodationList();
@@ -23,4 +22,8 @@ public interface ISearchAccmDaoMapper {
     List<Map<String, Object>> getHotelName(Map<String, Object> params);
 
     List<Map<String, Object>> getImage(List<Integer> getImageAccNoList);
+
+    List<Map<String, Object>> getStaticResult();
+
+    List<Map<String, Object>> getDynamicResult(String accmValue);
 }

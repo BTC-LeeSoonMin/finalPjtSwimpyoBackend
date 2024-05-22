@@ -12,4 +12,8 @@ List<Map<String, Object>> searchAccm(Map<String, Object> msgMap, AdminAccmDto ad
     List<AdminAccmDto> mapInfoList(String region);
 
     List<Map<String, Object>> rankAccmList(String accmValue);
+
+    List<Map<String, Object>> usersStatic();
+
+    Object usersDynamic(String accmValue);
 }

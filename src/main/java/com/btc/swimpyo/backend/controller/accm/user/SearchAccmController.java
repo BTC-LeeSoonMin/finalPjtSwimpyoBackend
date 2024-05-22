@@ -41,12 +41,26 @@ public class SearchAccmController {
     }
 
 
-    @GetMapping("/rankAccmList")
-    public Object rankAccmList(@RequestParam ("accmValue") String accmValue){
-        log.info("rankAccmList");
+//    @GetMapping("/rankAccmList")
+//    public Object rankAccmList(@RequestParam ("accmValue") String accmValue){
+//        log.info("rankAccmList");
+//
+//        List<Map<String, Object>> map = searchAccmService.rankAccmList(accmValue);
+//
+//        return map;
+//    }
 
-        List<Map<String, Object>> map = searchAccmService.rankAccmList(accmValue);
+@GetMapping("/usersStatic")
+public Object usersStatic(){
+    log.info("usersStatic");
 
-        return map;
+    return searchAccmService.usersStatic();
+}
+
+    @GetMapping("/usersDynamic")
+    public Object usersDynamic(@RequestParam ("accmValue") String accmValue){
+        log.info("usersDynamic");
+
+        return searchAccmService.usersDynamic(accmValue);
     }
 }

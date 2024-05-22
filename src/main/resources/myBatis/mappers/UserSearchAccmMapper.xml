@@ -94,6 +94,36 @@
 <!--            예약수 DESC;-->
 <!--    </select>-->
 
+    <!-- userMapper.xml -->
+
+        <select id="getStaticResult" resultType="hashmap">
+            SELECT
+                *
+            FROM
+                tbl_admin_room ar
+                    JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
+                    JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
+            where
+                a_acc_kind = "호텔/리조트"
+            LIMIT 50000;
+        </select>
+
+        <select id="getDynamicResult" resultType="hashmap">
+            SELECT
+                *
+            FROM
+                tbl_admin_room ar
+                    JOIN new_tbl_admin_accommodation aa ON ar.a_acc_no = aa.a_acc_no
+                    JOIN tbl_accommodation_image ai ON aa.a_acc_no = ai.a_acc_no
+            <where>
+                <if test="accmValue != null">
+                    AND a_acc_kind = #{accmValue}
+                </if>
+            </where>
+            LIMIT 50000;
+        </select>
+
+
     <select id="selectTop3Accm" parameterType="map" resultType="hashmap">
         SELECT
                     aa.a_acc_no,
